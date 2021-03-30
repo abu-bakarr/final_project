@@ -1,10 +1,11 @@
-const {Sequelize} = require("sequelize");
-const sequelize = new Sequelize("sqlite::memory:");
-const Products = require('./models/products');
+const { Sequelize } = require("sequelize");
+const Products = require('./models/products')
+    // const sequelize = new Sequelize('sqlite::memory:') // Example for sqlite
+const sequelize = new Sequelize('postgres://postgres:root@localhost:5432/productDB')
 
 return sequelize.authenticate()
     .then(result => {
-        console.log(`SQLite successfully connected!`);
+        console.log(`Postgress successfully connected!`);
         return Products.sync();
     })
     .then(result => {

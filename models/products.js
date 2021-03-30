@@ -1,5 +1,6 @@
-const {Sequelize, DataTypes} = require("sequelize");
-const sequelize = new Sequelize("sqlite::memory:");
+const { Sequelize, DataTypes } = require("sequelize");
+// const sequelize = new Sequelize("sqlite::memory:");
+const sequelize = new Sequelize('postgres://postgres:root@localhost:5432/productDB')
 
 const Product = sequelize.define("product", {
     id: {
@@ -12,6 +13,6 @@ const Product = sequelize.define("product", {
     mrp: DataTypes.FLOAT,
     stock: DataTypes.INTEGER,
     isPublished: DataTypes.BOOLEAN
-}, {timestamps: false});
+}, { timestamps: false });
 
 module.exports = Product;
