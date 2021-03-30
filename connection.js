@@ -13,5 +13,5 @@ return sequelize.authenticate()
         return result;
     })
     .catch(error => {
-        console.error('Unable to connect to SQLite database:', error);
+        console.error('Unable to connect to Postgress database:', error);
     })

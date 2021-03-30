@@ -25,7 +25,7 @@ module.exports = {
                 });
             })
             .catch(err => {
-                res.render({
+                res.json({
                     confirm: 'fail',
                     data: err.message
                 });
@@ -45,7 +45,7 @@ module.exports = {
                 });
             })
             .catch(err => {
-                res.render({
+                res.json({
                     confirm: 'fail',
                     data: err.message
                 });
@@ -65,7 +65,7 @@ module.exports = {
                 });
             })
             .catch(err => {
-                res.render({
+                res.json({
                     confirm: 'fail',
                     data: err.message
                 });
@@ -85,7 +85,7 @@ module.exports = {
                 });
             })
             .catch(err => {
-                res.render({
+                res.json({
                     confirm: 'fail',
                     data: err.message
                 });
