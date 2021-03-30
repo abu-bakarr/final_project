@@ -1,5 +1,6 @@
 const { Sequelize } = require("sequelize");
 const Products = require('./models/products')
+console.log(process.env.CONNECTION_STRING);
 const sequelize = new Sequelize(process.env.CONNECTION_STRING)
 require('dotenv').config()
 

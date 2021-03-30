@@ -16,3 +16,10 @@ const Product = sequelize.define("product", {
 }, { timestamps: false });
 
 module.exports = Product;
+
+// {
+//     "reporterEnabled": "spec, mocha-junit-reporter",
+//     "mochaJunitReporterReporterOptions": {
+//         "mochaFile": "unit.xml"
+//     }
+// }
