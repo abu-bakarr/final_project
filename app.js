@@ -23,8 +23,4 @@ app.use('/', indexRouter);
 app.use('/products', productRouter);
 
 
-app.listen(3000, () => {
-    console.log("Listeing on 3000")
-})
-
 module.exports = app;
