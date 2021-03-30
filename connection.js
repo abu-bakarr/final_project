@@ -1,7 +1,7 @@
 const { Sequelize } = require("sequelize");
 const Products = require('./models/products')
-    // const sequelize = new Sequelize('sqlite::memory:') // Example for sqlite
-const sequelize = new Sequelize('postgres://postgres:root@localhost:5432/productDB')
+const sequelize = new Sequelize(process.env.CONNECTION_STRING)
+require('dotenv').config()
 
 return sequelize.authenticate()
     .then(result => {
