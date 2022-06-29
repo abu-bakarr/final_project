@@ -1,43 +1,45 @@
-# Products API Medium
+# USer API Medium
 
 ## Data:
 Example of a trade data JSON object:
 ```
 {
-   "id":1,
-   "name": "Premium Roast Coffee",
-   "price": 1.19,
-   "mrp": 1.19,
-   "stock": 1,
-   "isPublished": false
+   "id": 1,
+   "firstName": "Ibrahim",
+   "lastName": "Bangura",
+   "email": "ib@gmail.com",
+   "password": "$2a$10$ylDfPY04RkYBLuphN88ieOIP17BVNpzkF7EK1iilhhHDUS3INK1be",
+   "avatar": "//www.gravatar.com/avatar/eaafa6dfb090066ba7842b060d175a7c?s=200&r=pg&d=mm",
+   "createdAt": "2022-06-29T09:26:45.667Z",
+   "updatedAt": "2022-06-29T09:26:45.667Z"
 }
 ```
 
 ## Project Specifications:
-The model implementation is for basic product usecase.
+The model implementation is for basic user usecase.
 
 
 
-The task is to implement the REST service that exposes the /products endpoint, which allows for managing the collection of product records in the following way:
+The task is to implement the REST service that exposes the /users endpoint, which allows for managing the collection of user records in the following way:
 
-- POST request to /products:
-    - creates a new product
-    - expects a JSON product object without the id and isPublished property as the body payload. You can assume that the given object is always valid.
-    - a new product should always be created with isPublished property set to false
+- POST request to /users:
+    - creates a new user
+    - expects a JSON user object without the id and isPublished property as the body payload. You can assume that the given object is always valid.
+    - a new user should always be created with isPublished property set to false
     - if the payload contains isPublished (either true or false) property, it should be disregarded and always set to false on object creation
-    - adds the given product object to the collection of products and assigns a unique integer id to it. The first created product must have id 1, the second one 2, and so on.
-    - the response code is 201, and the response body is the created product object
+    - adds the given user object to the collection of users and assigns a unique integer id to it. The first created user must have id 1, the second one 2, and so on.
+    - the response code is 201, and the response body is the created user object
 
-- GET request to /products:
-    - return a collection of all products
-    - the response code is 200, and the response body is an array of all product objects ordered by their ids in increasing order
+- GET request to /users:
+    - return a collection of all users
+    - the response code is 200, and the response body is an array of all user objects ordered by their ids in increasing order
 
-- PATCH request to /products/<id>:
+- PATCH request to /users/<id>:
     - you can assume that the body sent to this patch request will always be {"isPublished" : true}
   
 
-- DELETE, PUT request to /products/<id>:
-    - the response code is 405 because the API does not allow deleting or modifying products for any id value
+- DELETE, PUT request to /users/<id>:
+    - the response code is 405 because the API does not allow deleting or modifying users for any id value
 
 You should complete the given project so that it passes all the test cases when running the provided unit tests. The project by default supports the use of the SQLite3 database.
 
