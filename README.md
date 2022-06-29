@@ -5,10 +5,9 @@ Example of a trade data JSON object:
 ```
 {
    "id": 1,
-   "firstName": "Ibrahim",
+   "firstName": "Abubakarr",
    "lastName": "Bangura",
    "email": "ib@gmail.com",
-   "password": "$2a$10$ylDfPY04RkYBLuphN88ieOIP17BVNpzkF7EK1iilhhHDUS3INK1be",
    "avatar": "//www.gravatar.com/avatar/eaafa6dfb090066ba7842b060d175a7c?s=200&r=pg&d=mm",
    "createdAt": "2022-06-29T09:26:45.667Z",
    "updatedAt": "2022-06-29T09:26:45.667Z"
