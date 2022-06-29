@@ -6,7 +6,7 @@ require('dotenv').config();
 require('./connection');
 
 var authController = require('./routes/index');
-var userRouter = require('./routes/products');
+var userRouter = require('./routes/users');
 
 var app = express();
 
@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', authController);
-app.use('/user', userRouter);
+app.use('/auth', authController);
+app.use('/api/user', userRouter);
 
 module.exports = app;

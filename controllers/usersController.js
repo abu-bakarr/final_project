@@ -1,63 +1,110 @@
 const userModel = require('../models/users');
+const gravatar = require('gravatar');
+const jsonwebtoken = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 module.exports = {
-  add: (req, res) => {
-    var data = req.body;
+  add: async (req, res) => {
+    var { firstName, lastName, email, password } = req.body;
     console.log(req.body);
 
-    userModel
-      .create(data)
-      .then((users) => {
-        res.json({
-          confirm: 'Succes',
-          data: users,
-        });
-      })
-      .catch((err) => {
-        res.json({
-          confirm: 'fail',
-          data: err.message,
-        });
-      });
+    let avatar = gravatar.url(email, {
+      s: '200',
+      r: 'pg',
+      d: 'mm',
+    });
+
+    const salt = await bcrypt.genSaltSync(10);
+    const hashPassword = await bcrypt.hashSync(password, salt);
+
+    const user = await userModel.findOne({
+      where: {
+        email: email,
+      },
+    });
+    if (user) {
+      res.json({ error: 'Email exist' });
+      return;
+    }
+
+    const resp = await userModel.create({
+      firstName,
+      lastName,
+      email,
+      password: hashPassword,
+      avatar,
+    });
+    const payload = {
+      user: {
+        firstName,
+        lastName,
+        email,
+        avatar,
+      },
+    };
+
+    return jsonwebtoken.sign(
+      payload,
+      'secretKey',
+      {
+        expiresIn: '10d',
+      },
+      (err, token) => {
+        if (err) {
+          return res.json(err);
+        } else {
+          return res.json(token);
+        }
+      }
+    );
   },
 
-  getAll: (req, res) => {
-    // var query = req.query;
-    userModel
-      .findAll()
-      .then((users) => {
+  getAll: async (req, res) => {
+    try {
+      const allUsers = await userModel.findAll();
+      if (allUsers) {
         res.json({
           confirm: 'Succes',
-          data: users,
+          data: allUsers,
         });
-      })
-      .catch((err) => {
-        res.json({
-          confirm: 'fail',
-          data: err.message,
-        });
+        return;
+      }
+      res.json({
+        confirm: 'Succes',
+        data: [],
       });
+    } catch (err) {
+      res.json({
+        confirm: 'fail',
+        data: err,
+      });
+    }
   },
-  getById: (req, res) => {
+  getById: async (req, res) => {
     const { id } = req.params;
-    userModel
-      .findOne({
+    try {
+      const singleUser = await userModel.findOne({
         where: {
           id: id,
         },
-      })
-      .then((users) => {
+      });
+      if (singleUser) {
         res.json({
           confirm: 'Succes',
-          data: users,
+          data: singleUser,
         });
-      })
-      .catch((err) => {
-        res.json({
-          confirm: 'fail',
-          data: err.message,
-        });
+        return;
+      }
+      res.json({
+        confirm: 'Not Exist',
+        data: [],
       });
+    } catch (err) {
+      res.json({
+        confirm: 'fail',
+        data: 'invalid input',
+      });
+    }
   },
   deleteOne: (req, res) => {
     const { id } = req.params;
