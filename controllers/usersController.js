@@ -1,4 +1,4 @@
-const userModel = require('../models/users');
+const { UserModel } = require('../models/post');
 const gravatar = require('gravatar');
 const jsonwebtoken = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -17,7 +17,7 @@ module.exports = {
     const salt = await bcrypt.genSaltSync(10);
     const hashPassword = await bcrypt.hashSync(password, salt);
 
-    const user = await userModel.findOne({
+    const user = await UserModel.findOne({
       where: {
         email: email,
       },
@@ -27,7 +27,7 @@ module.exports = {
       return;
     }
 
-    const resp = await userModel.create({
+    const resp = await UserModel.create({
       firstName,
       lastName,
       email,
@@ -61,7 +61,7 @@ module.exports = {
 
   getAll: async (req, res) => {
     try {
-      const allUsers = await userModel.findAll();
+      const allUsers = await UserModel.findAll();
       if (allUsers) {
         res.json({
           confirm: 'Succes',
@@ -83,7 +83,7 @@ module.exports = {
   getById: async (req, res) => {
     const { id } = req.params;
     try {
-      const singleUser = await userModel.findOne({
+      const singleUser = await UserModel.findOne({
         where: {
           id: id,
         },
@@ -108,12 +108,11 @@ module.exports = {
   },
   deleteOne: (req, res) => {
     const { id } = req.params;
-    userModel
-      .destroy({
-        where: {
-          id: id,
-        },
-      })
+    UserModel.destroy({
+      where: {
+        id: id,
+      },
+    })
       .then((users) => {
         res.json({
           confirm: 'Succes',
@@ -129,12 +128,11 @@ module.exports = {
   },
   update: (req, res) => {
     const { id } = req.params;
-    userModel
-      .update(req.body, {
-        where: {
-          id: id,
-        },
-      })
+    UserModel.update(req.body, {
+      where: {
+        id: id,
+      },
+    })
       .then((users) => {
         res.json({
           confirm: 'Succes',

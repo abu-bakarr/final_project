@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-const UserModel = require('./models/users');
+
 const PostModel = require('./models/post');
 console.log(process.env.CONNECTION_STRING);
 const sequelize = new Sequelize(process.env.CONNECTION_STRING);
@@ -9,7 +9,8 @@ return sequelize
   .authenticate()
   .then((result) => {
     console.log(`Postgress successfully connected!`);
-    return UserModel.sync(), PostModel.sync();
+
+    return PostModel.sync();
   })
   .then((result) => {
     console.log(`users table created`);

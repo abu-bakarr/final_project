@@ -1,4 +1,4 @@
-const userModel = require('../models/users');
+const { UserModel } = require('../models/post');
 const bcrypt = require('bcryptjs');
 const gravatar = require('gravatar');
 const jsonwebtoken = require('jsonwebtoken');
@@ -8,7 +8,7 @@ module.exports = {
     const { email, password } = req.body;
 
     try {
-      const user = await userModel.findOne({
+      const user = await UserModel.findOne({
         where: {
           email: email,
         },
@@ -28,6 +28,7 @@ module.exports = {
       const payload = {
         user: {
           email,
+          id: user.dataValues.id,
         },
       };
 
