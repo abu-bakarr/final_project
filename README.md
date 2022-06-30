@@ -13,6 +13,76 @@ Example of a trade data JSON object:
    "updatedAt": "2022-06-29T09:26:45.667Z"
 }
 ```
+Get All Posts
+```
+{
+    "confirm": "Succes",
+    "data": [
+        {
+            "id": 1,
+            "text": "This is my very first post",
+            "name": "My First Post",
+            "createdAt": "2022-06-30T12:34:19.165Z",
+            "updatedAt": "2022-06-30T12:34:19.165Z",
+            "userId": 1
+        },
+        {
+            "id": 2,
+            "text": "This is my very second post",
+            "name": "My Second Post",
+            "createdAt": "2022-06-30T12:45:48.557Z",
+            "updatedAt": "2022-06-30T12:45:48.557Z",
+            "userId": 1
+        },
+        {
+            "id": 3,
+            "text": "This is my very second post",
+            "name": "My Third Post",
+            "createdAt": "2022-06-30T12:53:55.037Z",
+            "updatedAt": "2022-06-30T12:53:55.037Z",
+            "userId": 1
+        },
+        {
+            "id": 4,
+            "text": "This is my very first user 2 post",
+            "name": "My Part 2 Post",
+            "createdAt": "2022-06-30T15:11:53.656Z",
+            "updatedAt": "2022-06-30T17:08:44.745Z",
+            "userId": 2
+        }
+    ]
+}
+```
+
+Get Comments on Single Post
+
+```
+{
+    "confirm": "Succes",
+    "data": [
+        {
+            "id": 3,
+            "comments_text": "This post is good",
+            "comments_title": "This is my Comment",
+            "comments_avatar": "//www.gravatar.com/avatar/e6d023d0fbe52a288d5575ddf3ffd56f?s=200&r=pg&d=mm",
+            "createdAt": "2022-06-30T16:41:26.701Z",
+            "updatedAt": "2022-06-30T16:41:26.701Z",
+            "postId": 2,
+            "userId": 1
+        },
+        {
+            "id": 4,
+            "comments_text": "This second class good",
+            "comments_title": "This is my Two times its good",
+            "comments_avatar": "//www.gravatar.com/avatar/10d05e0c0de9c7c8884bcf4d2e1d11b5?s=200&r=pg&d=mm",
+            "createdAt": "2022-06-30T16:53:23.955Z",
+            "updatedAt": "2022-06-30T16:53:23.955Z",
+            "postId": 2,
+            "userId": 1
+        }
+    ]
+}
+```
 
 ## Project Specifications:
 The model implementation is for basic user usecase.
