@@ -1,9 +1,9 @@
 {
-  "name": "products-api",
+  "name": "dev-meet-api",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node bin/www",
+    "start": "nodemon bin/www",
     "prestart": "npm install",
     "pretest": "npm install",
     "test": "cross-env PORT=8001 ./node_modules/.bin/mocha test"
@@ -17,7 +17,6 @@
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
     "gravatar": "^1.8.2",
-    "jade": "^0.31.2",
     "jsonwebtoken": "^8.5.1",
     "mocha": "^7.1.0",
     "mocha-junit-reporter": "^1.23.3",
@@ -25,8 +24,7 @@
     "morgan": "~1.9.1",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
-    "sequelize": "^6.3.3",
-    "sqlite3": "^5.0.0"
+    "sequelize": "^6.3.3"
   },
   "devDependencies": {
     "bluebird": "^3.7.2",

@@ -51,49 +51,75 @@ module.exports = {
   },
   getPostById: async (req, res) => {
     const { id } = req.params;
+    var count;
     try {
-      const singleUser = await PostModel.findOne({
+      const singleCount = await PostModel.findOne({
         where: {
           id: id,
         },
       });
-      if (singleUser) {
+      if (singleCount) {
+        res.json({
+          confirm: 'success',
+          data: singleCount,
+        });
       }
-      res.json({
-        confirm: 'Not Exist',
-        data: [],
-      });
     } catch (err) {
       res.json({
         confirm: 'fail',
-        data: 'invalid input',
+        data: count,
       });
     }
   },
   likePost: async (req, res) => {
     const { id } = req.params;
+    const tokenUser = req.user;
+
     try {
+      const postCount = await PostModel.count({
+        where: {
+          id: id,
+        },
+      });
       const singlePost = await PostModel.findOne({
         where: {
           id: id,
         },
       });
-      if (!singlePost)
+
+      if (!singlePost) {
         return res.json({
           message: 'post does not exist',
         });
+      }
+      console.log('meee=> ' + tokenUser.id);
 
-      const resp = await Likes.create({
-        postId: singlePost.dataValues.id,
+      const alreadyLikes = await Likes.findOne({
+        where: { userId: tokenUser.id, postId: dataValues.dataValues.id },
       });
-      res.json({
-        confirm: 'success',
-        data: resp,
-      });
+
+      console.log('alreadyLikes:=> ' + alreadyLikes);
+
+      if (alreadyLikes) {
+        res.json({
+          message: 'you you have unlike this post',
+          data: unlike,
+        });
+      } else {
+        const resp = await Likes.create({
+          postId: singlePost.dataValues.id,
+          userId: req.user,
+        });
+        res.json({
+          confirm: 'success',
+          data: resp,
+        });
+      }
+      return;
     } catch (err) {
       res.json({
         confirm: 'fail',
-        data: 'invalid input',
+        data: err,
       });
     }
   },
@@ -113,10 +139,11 @@ module.exports = {
           id: id,
         },
       });
-      if (!singlePost)
+      if (!singlePost) {
         return res.json({
           message: 'post does not exist',
         });
+      }
 
       const resp = await Comment.create({
         avatar,
@@ -127,7 +154,7 @@ module.exports = {
 
       res.json({
         confirm: 'success',
-        data: resp,
+        data: singlePost,
       });
     } catch (err) {
       res.json({
