@@ -9,6 +9,7 @@ router.delete('/:id', auth, controller.deletePost);
 router.put('/:id', auth, controller.updatePost);
 
 router.post('/:id', auth, controller.likePost);
+router.get('/:id/likes', auth, controller.getAllLikesOnSinglePost);
 
 router.post('/:id/comments', auth, controller.commentPost);
 router.get('/:id/comments', auth, controller.getAllCommentsOnSinglePost);

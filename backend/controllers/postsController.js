@@ -1,6 +1,7 @@
 const { PostModel, UserModel, Comments, Likes } = require('../models/post');
 const gravatar = require('gravatar');
 const jsonwebtoken = require('jsonwebtoken');
+const { all } = require('../routes/posts');
 
 module.exports = {
   createPost: async (req, res) => {
@@ -29,20 +30,17 @@ module.exports = {
   },
 
   getAllPost: async (req, res) => {
-    try {
-      const allPosts = await PostModel.findAll();
-      if (allPosts) {
-        res.json({
-          confirm: 'Succes',
-          data: allPosts,
-        });
-        return;
-      }
+    const allPosts = await await PostModel.findAll({
+      include: [{ all: true }],
+    });
+
+    if (allPosts) {
       res.json({
         confirm: 'Succes',
-        data: [],
+        post: allPosts,
       });
-    } catch (err) {
+      return;
+    } else {
       res.json({
         confirm: 'fail',
         data: err,
@@ -57,6 +55,7 @@ module.exports = {
         where: {
           id: id,
         },
+        include: [{ all: true }],
       });
       if (singleCount) {
         res.json({
@@ -80,6 +79,7 @@ module.exports = {
         where: {
           id: id,
         },
+        include: UserModel,
       });
       const singlePost = await PostModel.findOne({
         where: {
@@ -105,7 +105,7 @@ module.exports = {
         });
         res.json({
           confirm: 'success',
-          data: resp,
+          data: { data: resp, totalCount: alreadyLikes },
         });
       }
       if (alreadyLikes >= 1) {
@@ -190,6 +190,7 @@ module.exports = {
 
       const allComment = await Comments.findAll({
         where: { postId: singlePost.dataValues.id },
+        include: [{ all: true }],
       });
 
       console.log('allComment =>', allComment);
@@ -198,6 +199,46 @@ module.exports = {
         res.json({
           confirm: 'Succes',
           data: allComment,
+        });
+        return;
+      }
+      res.json({
+        confirm: 'Succes',
+        data: [],
+      });
+    } catch (err) {
+      res.json({
+        confirm: 'fail',
+        data: err,
+      });
+    }
+  },
+  getAllLikesOnSinglePost: async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const singlePost = await PostModel.findOne({
+        where: {
+          id: id,
+        },
+      });
+      if (!singlePost) {
+        return res.json({
+          message: 'post does not exist',
+        });
+      }
+
+      const allLikes = await Likes.findAll({
+        where: { postId: singlePost.dataValues.id },
+        include: [{ all: true }],
+      });
+
+      console.log('allLikes =>', allLikes);
+
+      if (allLikes) {
+        res.json({
+          confirm: 'Succes',
+          data: allLikes,
         });
         return;
       }
@@ -249,6 +290,7 @@ module.exports = {
         id: id,
         userId: tokenUser.id,
       },
+      include: [{ all: true }],
     })
       .then((post) => {
         res.json({
