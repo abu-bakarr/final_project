@@ -1,4 +1,4 @@
-const { PostModel, UserModel, Likes } = require('../models/post');
+const { PostModel, UserModel, Comments, Likes } = require('../models/post');
 const gravatar = require('gravatar');
 const jsonwebtoken = require('jsonwebtoken');
 
@@ -94,25 +94,24 @@ module.exports = {
       }
       console.log('meee=> ' + tokenUser.id);
 
-      const alreadyLikes = await Likes.findOne({
-        where: { userId: tokenUser.id, postId: dataValues.dataValues.id },
+      const alreadyLikes = await Likes.count({
+        where: { userId: tokenUser.id, postId: singlePost.dataValues.id },
       });
 
-      console.log('alreadyLikes:=> ' + alreadyLikes);
-
-      if (alreadyLikes) {
-        res.json({
-          message: 'you you have unlike this post',
-          data: unlike,
-        });
-      } else {
+      if (alreadyLikes === 0) {
         const resp = await Likes.create({
           postId: singlePost.dataValues.id,
-          userId: req.user,
+          userId: tokenUser.id,
         });
         res.json({
           confirm: 'success',
           data: resp,
+        });
+      }
+      if (alreadyLikes >= 1) {
+        res.json({
+          message: 'you you have unlike this post',
+          data: unlike,
         });
       }
       return;
@@ -126,8 +125,11 @@ module.exports = {
   commentPost: async (req, res) => {
     const { id } = req.params;
     const { comments_text, comments_title } = req.body;
+    const tokenUser = req.user;
 
-    let avatar = gravatar.url(email, {
+    console.log('Body =>', req.body);
+
+    let avatar = gravatar.url(comments_text, {
       s: '200',
       r: 'pg',
       d: 'mm',
@@ -145,17 +147,25 @@ module.exports = {
         });
       }
 
-      const resp = await Comment.create({
-        avatar,
+      const resp = await Comments.create({
+        comments_avatar: avatar,
         comments_text,
         comments_title,
         postId: singlePost.dataValues.id,
+        userId: tokenUser.id,
       });
 
+      if (resp) {
+        return res.json({
+          confirm: 'success',
+          data: resp,
+        });
+      }
       res.json({
-        confirm: 'success',
-        data: singlePost,
+        confirm: 'fail',
+        data: 'fail to fetch data',
       });
+      return;
     } catch (err) {
       res.json({
         confirm: 'fail',
@@ -163,40 +173,86 @@ module.exports = {
       });
     }
   },
+  getAllCommentsOnSinglePost: async (req, res) => {
+    const { id } = req.params;
 
-  deletePost: (req, res) => {
-    const { id } = req.params;
-    userModel
-      .destroy({
+    try {
+      const singlePost = await PostModel.findOne({
         where: {
           id: id,
         },
-      })
-      .then((users) => {
-        res.json({
-          confirm: 'Succes',
-          data: users,
-        });
-      })
-      .catch((err) => {
-        res.json({
-          confirm: 'fail',
-          data: err.message,
-        });
       });
-  },
-  updatePost: (req, res) => {
-    const { id } = req.params;
-    userModel
-      .update(req.body, {
-        where: {
-          id: id,
-        },
-      })
-      .then((users) => {
+      if (!singlePost) {
+        return res.json({
+          message: 'post does not exist',
+        });
+      }
+
+      const allComment = await Comments.findAll({
+        where: { postId: singlePost.dataValues.id },
+      });
+
+      console.log('allComment =>', allComment);
+
+      if (allComment) {
         res.json({
           confirm: 'Succes',
-          data: users,
+          data: allComment,
+        });
+        return;
+      }
+      res.json({
+        confirm: 'Succes',
+        data: [],
+      });
+    } catch (err) {
+      res.json({
+        confirm: 'fail',
+        data: err,
+      });
+    }
+  },
+
+  deletePost: async (req, res) => {
+    const { id } = req.params;
+    const tokenUser = req.user;
+
+    try {
+      const deletePost = await PostModel.findOne({
+        where: { id: id, userId: tokenUser.id },
+      });
+
+      console.log('deletePost =>', deletePost);
+
+      if (deletePost) {
+        res.json({
+          confirm: 'Succes',
+          data: deleteComment,
+        });
+        return;
+      }
+      res.json({
+        confirm: 'Succes',
+        data: [],
+      });
+    } catch (err) {
+      res.json({});
+    }
+  },
+  updatePost: async (req, res) => {
+    const { id } = req.params;
+    const tokenUser = req.user;
+
+    await PostModel.update(req.body, {
+      where: {
+        id: id,
+        userId: tokenUser.id,
+      },
+    })
+      .then((post) => {
+        res.json({
+          confirm: 'Succes',
+          data: post,
         });
       })
       .catch((err) => {

@@ -10,7 +10,7 @@ return sequelize
   .then((result) => {
     console.log(`Postgress successfully connected!`);
 
-    return PostModel.sync();
+    return PostModel;
   })
   .then((result) => {
     console.log(`users table created`);

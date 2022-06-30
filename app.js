@@ -3,7 +3,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('dotenv').config();
-require('./connection');
 
 var authController = require('./routes/index');
 var postController = require('./routes/posts');
