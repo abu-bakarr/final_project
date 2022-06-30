@@ -218,25 +218,26 @@ module.exports = {
     const tokenUser = req.user;
 
     try {
-      const deletePost = await PostModel.findOne({
+      const deletePost = await PostModel.destroy({
         where: { id: id, userId: tokenUser.id },
       });
-
-      console.log('deletePost =>', deletePost);
 
       if (deletePost) {
         res.json({
           confirm: 'Succes',
-          data: deleteComment,
+          data: deletePost,
         });
         return;
       }
       res.json({
-        confirm: 'Succes',
-        data: [],
+        confirm: 'fail',
+        data: 'Not Authorize to delet this Post',
       });
     } catch (err) {
-      res.json({});
+      res.json({
+        confirm: 'fail',
+        data: err.message,
+      });
     }
   },
   updatePost: async (req, res) => {
