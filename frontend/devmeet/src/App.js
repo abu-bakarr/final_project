@@ -24,6 +24,7 @@ import '@ionic/react/css/display.css';
 import './theme/tailwind.css';
 /* Theme variables */
 import './theme/variables.css';
+import PostDetails from './pages/PostDetails';
 
 setupIonicReact();
 
@@ -40,6 +41,9 @@ const App = () => (
         </Route>
         <Route exact path="/dashboard">
           <Dashboard />
+        </Route>
+        <Route exact path="/post/item">
+          <PostDetails />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>

@@ -1,27 +1,51 @@
 import {
-  IonListHeader,
+  IonLoading,
   IonCard,
   IonLabel,
   IonItem,
   IonAvatar,
   IonList,
+  IonModal,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   useIonViewWillEnter,
+  IonButton,
 } from '@ionic/react';
 import { useState, useEffect } from 'react';
+import PostDetails from './PostDetails';
+import axios from 'axios';
+import { BASE_URL } from '../env';
+import { useHistory } from 'react-router';
+import { Storage } from '@capacitor/storage';
 
 export default function Posts({ posts }) {
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [postsInfo, setPostsInfo] = useState({});
+
+  const history = useHistory();
 
   const loadData = () => {
     posts.length > 10 ? setInfiniteDisabled(true) : setInfiniteDisabled(false);
   };
 
-  console.log('isInfiniteDisabled click =>', isInfiniteDisabled);
+  const handleClick = async (i, item) => {
+    const token = await Storage.get({ key: 'authTokens' });
 
-  const handleClick = (item) => {
-    console.log('item =>', item);
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token.value,
+    };
+
+    setLoading(true);
+    const getPost = await axios.get(`${BASE_URL}posts/${item.id}`, {
+      headers: headers,
+    });
+    if (getPost) {
+      setPostsInfo(getPost);
+      setLoading(false);
+    }
   };
 
   useIonViewWillEnter(() => {
@@ -30,21 +54,37 @@ export default function Posts({ posts }) {
 
   return (
     <>
-      <h4 className="text-center ">Posts</h4>
-      {posts.map((item) => (
-        <IonCard key={item.id} onClick={handleClick}>
-          <IonList>
-            <IonItem>
-              <IonAvatar slot="start"></IonAvatar>
-              <IonLabel>
-                <h2>{item.name}</h2>
-                <h3>By: {item.user.firstName}</h3>
-                <p>{item.text}</p>
-              </IonLabel>
-            </IonItem>
-          </IonList>
-        </IonCard>
-      ))}
+      <h4 className="text-center leading-tight appearance-none text-2xl ">
+        List of Posts
+      </h4>
+      {showModal && <PostDetails data={postsInfo} />}
+      <IonLoading isOpen={loading} message={'Please Wait...'} duration={0} />
+      {posts.map((item, id) => {
+        return (
+          <IonCard
+            key={item.id}
+            onClick={(i) => {
+              setShowModal(true);
+              handleClick(i, item);
+            }}
+          >
+            <IonList>
+              <IonItem>
+                <IonAvatar slot="start"></IonAvatar>
+                <IonLabel>
+                  <h2>
+                    <strong>{item.name}</strong>
+                  </h2>
+                  <h5>
+                    By: {item.user.firstName} {item.user.lastName}
+                  </h5>
+                  <p>{item.text}</p>
+                </IonLabel>
+              </IonItem>
+            </IonList>
+          </IonCard>
+        );
+      })}
       <IonInfiniteScroll
         onIonInfinite={loadData}
         threshold="100px"

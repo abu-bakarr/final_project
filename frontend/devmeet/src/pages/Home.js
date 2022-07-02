@@ -74,11 +74,11 @@ const Home = (props) => {
 
       const getResp = await axios.post(`${BASE_URL}auth`, content);
       setLoading(false);
-      console.log('getResp', getResp);
+
       if (getResp.status === 200) {
         Storage.set({
           key: 'authTokens',
-          value: JSON.stringify(getResp.data),
+          value: getResp.data,
         });
 
         let user_data = jwtDecode(getResp.data);
