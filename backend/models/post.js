@@ -80,6 +80,7 @@ sequelize.sync({ alter: true });
 
 Likes.belongsTo(PostModel);
 Likes.belongsTo(UserModel);
+
 Comments.belongsTo(PostModel);
 Comments.belongsTo(UserModel);
 
