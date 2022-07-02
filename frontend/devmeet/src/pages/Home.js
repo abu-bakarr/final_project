@@ -92,31 +92,6 @@ const Home = (props) => {
           buttons: [{ text: 'Ok' }],
         });
       }
-
-      // axios
-      //   .post(`${BASE_URL}auth`, content)
-      //   .then((response) => {
-      //     setLoading(false);
-      //     Storage.set({
-      //       key: 'authTokens',
-      //       value: JSON.stringify(response.data),
-      //     });
-
-      //     let user_data = jwtDecode(response.data);
-      //     Storage.set({ key: 'user', value: JSON.stringify(user_data) });
-
-      //     return history.push('/dashboard');
-      //   })
-      //   .catch((error) => {
-      //     setLoading(false);
-      //     if (error) {
-      //       showAlert({
-      //         header: 'Error',
-      //         message: 'Wrong email or Password.',
-      //         buttons: [{ text: 'Ok' }],
-      //       });
-      //     }
-      //   });
     }
   };
 
@@ -152,8 +127,8 @@ const Home = (props) => {
                       name="email"
                       value={formData.email}
                       onIonChange={handleInputChange}
-                      placeholder="&nbsp;&nbsp;email"
-                      className="shadow appearance-none border rounded w-full py-2 px-3 text-black-700 leading-tight focus:outline-none focus:shadow-outline"
+                      placeholder="email"
+                      className="shadow text-left appearance-none border rounded w-full py-2 px-3 text-black-700 leading-tight focus:outline-none focus:shadow-outline"
                     ></IonInput>
                   </div>
                   <div className=" flex mb-4">
@@ -164,7 +139,7 @@ const Home = (props) => {
                         value={formData.password}
                         onIonChange={handleInputChange}
                         placeholder="&nbsp;&nbsp;Password"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-black-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow text-left appearance-none border rounded w-full py-2 px-3 text-black-700 leading-tight focus:outline-none focus:shadow-outline"
                       ></IonInput>{' '}
                       <IonIcon
                         onClick={togglePassword}

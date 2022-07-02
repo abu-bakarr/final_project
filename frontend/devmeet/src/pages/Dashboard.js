@@ -4,6 +4,7 @@ import {
   IonToolbar,
   IonContent,
   IonGrid,
+  IonListHeader,
   IonPage,
   IonButtons,
 } from '@ionic/react';
@@ -13,6 +14,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../env';
 import Posts from './Posts';
+import { Menu } from '../components/Menu';
 
 const Dashboard = () => {
   const history = useHistory();
@@ -30,16 +32,17 @@ const Dashboard = () => {
   return (
     <>
       <IonPage>
+        <Menu />
         <IonHeader translucent>
           <IonToolbar>
-            <IonButtons slot="start">
-              <NavButtons />
-            </IonButtons>
+            <IonButtons slot="start">{/* <NavButtons /> */}</IonButtons>
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen>
           <IonGrid>
-            <h4 className="text-center py-4 text-md">Welcome to Dev Meet</h4>
+            <IonListHeader className="text-center">
+              Welcome to Dev Meet
+            </IonListHeader>
             {posts.length < 0 ? 'No Post Available' : renderPosts(posts)}
           </IonGrid>
         </IonContent>

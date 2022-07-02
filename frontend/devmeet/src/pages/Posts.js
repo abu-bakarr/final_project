@@ -17,31 +17,33 @@ export default function Posts({ posts }) {
   const loadData = () => {
     posts.length > 10 ? setInfiniteDisabled(true) : setInfiniteDisabled(false);
   };
+
   console.log('isInfiniteDisabled click =>', isInfiniteDisabled);
 
-  const handleClick = (e) => {};
+  const handleClick = (item) => {
+    console.log('item =>', item);
+  };
+
   useIonViewWillEnter(() => {
     loadData();
   });
 
   return (
     <>
-      <IonListHeader> Posts </IonListHeader>
+      <h4 className="text-center ">Posts</h4>
       {posts.map((item) => (
-        <>
-          <IonCard key={item.id} onClick={handleClick}>
-            <IonList>
-              <IonItem>
-                <IonAvatar slot="start"></IonAvatar>
-                <IonLabel>
-                  <h2>{item.user.name}</h2>
-                  <h3>{item.name}</h3>
-                  <p>{item.text}</p>
-                </IonLabel>
-              </IonItem>
-            </IonList>
-          </IonCard>
-        </>
+        <IonCard key={item.id} onClick={handleClick}>
+          <IonList>
+            <IonItem>
+              <IonAvatar slot="start"></IonAvatar>
+              <IonLabel>
+                <h2>{item.name}</h2>
+                <h3>By: {item.user.firstName}</h3>
+                <p>{item.text}</p>
+              </IonLabel>
+            </IonItem>
+          </IonList>
+        </IonCard>
       ))}
       <IonInfiniteScroll
         onIonInfinite={loadData}
