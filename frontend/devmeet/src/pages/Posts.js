@@ -23,6 +23,7 @@ export default function Posts({ posts }) {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [postsInfo, setPostsInfo] = useState({});
+  const [commentsInfo, setCommentsInfo] = useState({});
 
   const history = useHistory();
 
@@ -42,8 +43,15 @@ export default function Posts({ posts }) {
     const getPost = await axios.get(`${BASE_URL}posts/${item.id}`, {
       headers: headers,
     });
+    const getComments = await axios.get(
+      `${BASE_URL}posts/${item.id}/comments`,
+      {
+        headers: headers,
+      }
+    );
     if (getPost) {
       setPostsInfo(getPost);
+      setCommentsInfo(getComments);
       setLoading(false);
     }
   };
@@ -57,7 +65,7 @@ export default function Posts({ posts }) {
       <h4 className="text-center leading-tight appearance-none text-2xl ">
         List of Posts
       </h4>
-      {showModal && <PostDetails data={postsInfo} />}
+      {showModal && <PostDetails comments={commentsInfo} posts={postsInfo} />}
       <IonLoading isOpen={loading} message={'Please Wait...'} duration={0} />
       {posts.map((item, id) => {
         return (
