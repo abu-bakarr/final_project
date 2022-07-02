@@ -10,31 +10,18 @@ import {
   useIonViewWillEnter,
 } from '@ionic/react';
 import { useState, useEffect } from 'react';
-import { useHistory, useParams } from 'react-router';
 
 export default function Posts({ posts }) {
   const [isInfiniteDisabled, setInfiniteDisabled] = useState(false);
 
-  const history = useHistory();
-  const data = useParams();
-
-  useEffect(() => {
-    const loadData = () => {
-      posts.length > 10
-        ? setInfiniteDisabled(true)
-        : setInfiniteDisabled(false);
-    };
-    loadData();
-  });
-
+  const loadData = () => {
+    posts.length > 10 ? setInfiniteDisabled(true) : setInfiniteDisabled(false);
+  };
   console.log('isInfiniteDisabled click =>', isInfiniteDisabled);
 
-  const handleClick = (e) => {
-    console.log('history click =>', history);
-    console.log('useParams click =>');
-  };
+  const handleClick = (e) => {};
   useIonViewWillEnter(() => {
-    posts;
+    loadData();
   });
 
   return (
