@@ -14,9 +14,20 @@ import {
 import { home, heart, book, settings, logOutOutline } from 'ionicons/icons';
 import { Storage } from '@capacitor/storage';
 import style from './Menu.module.scss';
+import { useEffect, useState } from 'react';
 
 export const Menu = () => {
   const [showAlert] = useIonAlert();
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    const getUser = async () => {
+      const token = await Storage.get({ key: 'user' });
+      const parseData = await JSON.parse(token.value);
+      setUsername(parseData?.user?.name);
+    };
+    getUser();
+  }, []);
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -42,7 +53,7 @@ export const Menu = () => {
     <IonMenu side="start" contentId="main">
       <IonHeader>
         <IonToolbar color="light">
-          <IonTitle>CHW Username</IonTitle>
+          <IonTitle>{username}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>

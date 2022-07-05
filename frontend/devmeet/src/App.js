@@ -3,7 +3,6 @@ import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
-import { Menu } from './components/Menu';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -25,6 +24,8 @@ import './theme/tailwind.css';
 /* Theme variables */
 import './theme/variables.css';
 import PostDetails from './pages/PostDetails';
+import Signup from './pages/Signup';
+import { Menu } from './components/Menu';
 
 setupIonicReact();
 
@@ -32,7 +33,7 @@ const App = () => (
   <IonApp>
     <IonReactRouter>
       <Menu />
-      <IonRouterOutlet>
+      <IonRouterOutlet id="main">
         <Route exact path="/login">
           <Home />
         </Route>
@@ -44,6 +45,9 @@ const App = () => (
         </Route>
         <Route exact path="/post/item">
           <PostDetails />
+        </Route>
+        <Route exact path="/signup">
+          <Signup />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>

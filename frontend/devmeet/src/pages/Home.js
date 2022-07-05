@@ -103,7 +103,7 @@ const Home = (props) => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonLoading isOpen={loading} message={'Please Wait...'} duration={0} />
+        <IonLoading isOpen={loading} message={'Loading ....'} duration={0} />
         <IonGrid style={{ marginTop: '7%' }}>
           <IonRow>
             <IonCol size-sm="12">
@@ -122,14 +122,16 @@ const Home = (props) => {
                 <IonCardContent>
                   <br />
                   <div className="mb-4">
-                    <IonInput
-                      type="text"
-                      name="email"
-                      value={formData.email}
-                      onIonChange={handleInputChange}
-                      placeholder="email"
-                      className="shadow text-left appearance-none border rounded w-full py-2 px-3 text-black-700 leading-tight focus:outline-none focus:shadow-outline"
-                    ></IonInput>
+                    <IonRow>
+                      <IonInput
+                        type="text"
+                        name="email"
+                        value={formData.email}
+                        onIonChange={handleInputChange}
+                        placeholder="email"
+                        className="shadow text-left appearance-none border rounded w-full py-2 px-3 text-black-700 leading-tight focus:outline-none focus:shadow-outline"
+                      ></IonInput>
+                    </IonRow>
                   </div>
                   <div className=" flex mb-4">
                     <IonRow>
@@ -140,15 +142,17 @@ const Home = (props) => {
                         onIonChange={handleInputChange}
                         placeholder="&nbsp;&nbsp;Password"
                         className="shadow text-left appearance-none border rounded w-full py-2 px-3 text-black-700 leading-tight focus:outline-none focus:shadow-outline"
-                      ></IonInput>{' '}
-                      <IonIcon
-                        onClick={togglePassword}
-                        icon={passwordShown ? eyeOff : eye}
-                      />
+                      >
+                        {' '}
+                        <IonIcon
+                          onClick={togglePassword}
+                          icon={passwordShown ? eyeOff : eye}
+                        />
+                      </IonInput>
                     </IonRow>
                   </div>
                   <br />
-                  <p className="mb-3 float-right">
+                  <p className="mb-3 float-center">
                     You don't have an account ? {''}
                     <Link to="/signup">Signup Here</Link>
                   </p>

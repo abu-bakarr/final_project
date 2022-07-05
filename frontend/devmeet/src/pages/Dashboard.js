@@ -4,17 +4,18 @@ import {
   IonToolbar,
   IonContent,
   IonGrid,
-  IonListHeader,
   IonPage,
   IonButtons,
+  IonTitle,
+  IonBackButton,
 } from '@ionic/react';
 import { useHistory } from 'react-router';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../env';
 import Posts from './Posts';
-import { Menu } from '../components/Menu';
 import { Storage } from '@capacitor/storage';
+import { NavButtons } from '../components/NavButton';
 
 const Dashboard = () => {
   const history = useHistory();
@@ -37,24 +38,23 @@ const Dashboard = () => {
   };
 
   return (
-    <>
-      <IonPage>
-        <Menu />
-        <IonHeader translucent>
-          <IonToolbar>
-            <IonButtons slot="start"></IonButtons>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent fullscreen>
-          <IonGrid>
-            <IonListHeader className="text-center">
-              Welcome to Dev Meet {username}
-            </IonListHeader>
-            {posts.length < 0 ? 'No Post Available' : renderPosts(posts)}
-          </IonGrid>
-        </IonContent>
-      </IonPage>
-    </>
+    <IonPage>
+      <IonHeader>
+        <IonToolbar className="bg-color" style={{ color: '#fff' }}>
+          <IonButtons slot="start">
+            <NavButtons />
+          </IonButtons>
+          <IonTitle className="text-left text-sm">
+            Welcome to Dev Meet {username.toUpperCase()}
+          </IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent fullscreen>
+        <IonGrid>
+          {posts.length < 0 ? 'No Post Available' : renderPosts(posts)}
+        </IonGrid>
+      </IonContent>
+    </IonPage>
   );
 };
 

@@ -5,11 +5,13 @@ import {
   IonItem,
   IonAvatar,
   IonList,
-  IonModal,
+  IonHeader,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   useIonViewWillEnter,
-  IonButton,
+  IonToolbar,
+  IonButtons,
+  IonBackButton,
 } from '@ionic/react';
 import { useState, useEffect } from 'react';
 import PostDetails from './PostDetails';
@@ -62,9 +64,6 @@ export default function Posts({ posts }) {
 
   return (
     <>
-      <h4 className="text-center leading-tight appearance-none text-2xl ">
-        List of Posts
-      </h4>
       {showModal && <PostDetails comments={commentsInfo} posts={postsInfo} />}
       <IonLoading isOpen={loading} message={'Please Wait...'} duration={0} />
       {posts.map((item, id) => {
