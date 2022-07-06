@@ -18,6 +18,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/api', (req, res) => {
+  res.json({ message: 'Welcome to Abubakarr Bangura Final Project API' });
+});
+
 app.use('/api/auth', authController);
 app.use('/api/posts', postController);
 app.use('/api/user', userRouter);
