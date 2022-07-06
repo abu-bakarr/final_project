@@ -26,6 +26,7 @@ import './theme/variables.css';
 import PostDetails from './pages/PostDetails';
 import Signup from './pages/Signup';
 import { Menu } from './components/Menu';
+import CreatePost from './pages/CreatePost';
 
 setupIonicReact();
 
@@ -47,7 +48,7 @@ const App = () => (
           <PostDetails />
         </Route>
         <Route exact path="/post">
-          <PostDetails />
+          <CreatePost />
         </Route>
         <Route exact path="/signup">
           <Signup />

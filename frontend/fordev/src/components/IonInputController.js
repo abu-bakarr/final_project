@@ -19,7 +19,7 @@ export default function IonInputController({
             name={name}
             type={type}
             onIonChange={(e) => onChange(e.detail.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-black-700 leading-tight focus:outline-none"
+            className="shadow appearance-none border rounded w-full px-3 text-black-700 leading-tight focus:outline-none"
           ></IonInput>
         )}
         name={name}

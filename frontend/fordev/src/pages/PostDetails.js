@@ -82,8 +82,6 @@ const PostDetails = ({ posts, comments }) => {
       });
   };
 
-  console.log('Commentshere =>', comments);
-
   return (
     <IonModal isOpen={true}>
       <IonHeader>
@@ -98,11 +96,11 @@ const PostDetails = ({ posts, comments }) => {
               Back
             </IonBackButton>
           </IonButtons>
-          <IonTitle className="text-center text-sm"></IonTitle>
+          <IonTitle className="text-center text-sm">Back</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonLoading isOpen={loading} message={'Please Wait...'} duration={0} />
+        <IonLoading isOpen={loading} message={'loading ....'} duration={0} />
         <IonCard>
           <IonList>
             <IonItem>

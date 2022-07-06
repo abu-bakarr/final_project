@@ -16,7 +16,7 @@ import {
   useIonAlert,
 } from '@ionic/react';
 import './Home.css';
-// import logo from '../images/mohs_logo.png';
+import logo from '../images/logo.png';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../env';
@@ -58,24 +58,25 @@ const Signup = () => {
       console.log('data =>', data);
       const getResp = await axios.post(`${BASE_URL}user/`, data);
 
-      console.log('getRep =>', getResp);
+      console.log('getRep =>', await getResp.json());
 
       if (getResp.status === 200) {
         setLoading(false);
-        reset(initialValues);
+        reset();
         showAlert({
           header: 'success',
           message: 'you have successfully registered, please login',
           buttons: [{ text: 'Ok' }],
         });
-        return history.push('/login');
-      } else {
+        return history.replace('/login');
+      }
+      if (getResp.status === 409) {
+        setLoading(false);
         showAlert({
           header: 'Error',
           message: 'Email already exists',
           buttons: [{ text: 'Ok' }],
         });
-        setLoading(false);
       }
     } else {
       showAlert({
@@ -91,7 +92,7 @@ const Signup = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar className="bg-color" style={{ color: '#fff' }}>
-          <IonTitle className="text-center">DevMeet</IonTitle>
+          <IonTitle className="text-center">For Developers</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -100,17 +101,16 @@ const Signup = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <IonRow>
               <IonCol size-sm="12">
-                {/* <img src={logo} alt="mohs_logo.jpg" className="rounded mx-auto" /> */}
+                <img
+                  src={logo}
+                  alt="for dev logo"
+                  className="rounded mx-auto"
+                />
               </IonCol>
             </IonRow>
             <IonRow>
-              <IonCol
-                className="text-center"
-                size-sm="12"
-                size-md="4"
-                offsetMd="4"
-              >
-                <h3 className="text-center text-2xl">Sign Up</h3>
+              <IonCol className="text-center" size-sm="12" size-md="1">
+                <h3 className="text-center text-1xl">Sign Up</h3>
                 <IonCard>
                   <IonCardContent>
                     <IonRow>
@@ -133,7 +133,7 @@ const Signup = () => {
                     </IonRow>
                     {errors && (
                       <IonLabel color="dark">
-                        <span className="px-10 text-red-700">
+                        <span className="text-left text-red-700">
                           {errors.firstName?.type === 'required' &&
                             'first name is required'}
                         </span>
@@ -159,7 +159,7 @@ const Signup = () => {
                     </IonRow>
                     {errors && (
                       <IonLabel color="dark">
-                        <span className="px-10 text-red-700">
+                        <span className="text-left text-red-700">
                           {errors.lastName?.type === 'required' &&
                             'last name is required'}
                         </span>
@@ -185,7 +185,7 @@ const Signup = () => {
                     </IonRow>
                     {errors && (
                       <IonLabel color="dark">
-                        <span className="px-10 text-red-700">
+                        <span className="text-left text-red-700">
                           {errors.email?.type === 'required' &&
                             'email is required'}
                         </span>
@@ -211,7 +211,7 @@ const Signup = () => {
                     </IonRow>
                     {errors && (
                       <IonLabel color="dark">
-                        <span className="px-10 text-red-700">
+                        <span className="text-left text-red-700">
                           {errors.password?.type === 'required' &&
                             'Password is required'}
                         </span>
@@ -237,7 +237,7 @@ const Signup = () => {
                     </IonRow>
                     {errors && (
                       <IonLabel color="dark">
-                        <span className="px-10 text-red-700">
+                        <span className="text-left text-red-700">
                           {errors.confirmPassword?.type === 'required' &&
                             'confirm Password is required'}
                         </span>
@@ -246,7 +246,9 @@ const Signup = () => {
                     <br />
                     <IonLabel className="mt-2 mb-3 text-muted text-center float-center">
                       Already have an account ? {''}
-                      <Link to="/login">Login Here</Link>
+                      <Link to="/login">
+                        <span className="text-blue-700"> Login Here</span>
+                      </Link>
                     </IonLabel>
                     <IonButton
                       expand="block"
@@ -254,7 +256,7 @@ const Signup = () => {
                       style={{ color: '#fff' }}
                       type="submit"
                     >
-                      Login
+                      Register
                     </IonButton>
                     <br />
                   </IonCardContent>
