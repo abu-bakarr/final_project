@@ -23,7 +23,7 @@ module.exports = {
       },
     });
     if (user) {
-      res.json({ error: 'Email exist' });
+      res.status(409).jsonp({ error: 'Email exist' });
       return;
     }
 
@@ -53,7 +53,7 @@ module.exports = {
         if (err) {
           return res.json(err);
         } else {
-          return res.json(token);
+          return res.status(200).json(token);
         }
       }
     );

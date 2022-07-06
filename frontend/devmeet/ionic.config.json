@@ -1,7 +1,0 @@
-{
-  "name": "devmeet",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "react"
-}

@@ -29,6 +29,7 @@ module.exports = {
         user: {
           email,
           id: user.dataValues.id,
+          name: user.dataValues.firstName,
         },
       };
 
